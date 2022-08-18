@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./app.css";
 
-function App() {
+const App = () => {
+  const [date, setDate] = useState("");
+
+  function newDate(date) {
+    function padTo2Digits(num) {
+      return num.toString().padStart(2, "0");
+    }
+
+    return [
+      padTo2Digits(date.getHours()),
+      padTo2Digits(date.getMinutes()),
+      padTo2Digits(date.getSeconds()),
+    ].join(":");
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDate(newDate(new Date()));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>{date}</h1>
     </div>
   );
-}
+};
 
 export default App;
